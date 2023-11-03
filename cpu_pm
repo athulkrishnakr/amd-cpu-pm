@@ -81,8 +81,8 @@ def set_epp(epp: str):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-p', '--platform', help='Set platform power profile')
-    parser.add_argument('-c', '--cpu', help='Set CPU energy performance preference')
+    parser.add_argument('-p', '--platform', help='''Set platform power profile ['power-saver', 'balanced', 'performance']''')
+    parser.add_argument('-c', '--cpu', help='''Set CPU energy performance preference ['performance', 'balance_performance', 'balance_power', 'power']''')
     args = parser.parse_args()
     gov = 'powersave'
     current_gov = get_current_gov()
