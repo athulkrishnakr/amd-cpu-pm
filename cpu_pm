@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import pm_modules.lib
+import pm_modules.i_gpu
 import pm_modules.cpu_epp
 import pm_modules.power_profile
 
@@ -39,6 +40,7 @@ def main():
     parser = pm_modules.lib.argparse.ArgumentParser()
     parser.add_argument('-p', '--platform', help='''Set platform power profile ['power-saver', 'balanced', 'performance']''')
     parser.add_argument('-c', '--cpu', help='''Set CPU energy performance preference ['performance', 'balance_performance', 'balance_power', 'power']''')
+    parser.add_argument('-g', '--gpu', help='Set GPU profile')
     args = parser.parse_args()
     gov = 'powersave'
     current_gov = get_current_gov()
@@ -51,6 +53,8 @@ def main():
         pm_modules.cpu_epp.set_epp(args.cpu)
     if args.platform != None:    
         pm_modules.power_profile.set_platofrm_profile(args.platform)
+    if args.gpu != None:
+        pm_modules.i_gpu.set_gpu_profile(args.gpu)
     
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ def set_epp(epp: str):
                     cpu_epp.write(epp)
                     cpu_epp.close()
             except(OSError):
-                pm_modules.lib.og.warning(f'Cannot set EPP profile to: {epp}')
+                pm_modules.lib.log.warning(f'Cannot set EPP profile to: {epp}')
                 return
         pm_modules.lib.log.info(f'EPP set to: {epp}')
     else:    
