@@ -5,5 +5,7 @@ Script to manage AMD CPU
 * power profile daemon
 * amd-pstate to be enabled
 * python3
-    * doesnt matter   
+
+## Modes of Operation:
+* <sup>-c, --cpu</sup>: Sets cpu EPP. Available option: <sup>power</sup> <sup>balance_power</sup> <sup>balance_performance</sup> <sup>performance</sup>
 
