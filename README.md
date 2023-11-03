@@ -7,4 +7,5 @@ Script to manage AMD CPU
 * python3
 
 ## Commands:
-* <mark>-c, --cpu</mark>
+* `-c, --cpu`: Sets cpu EPP. Available options: `power` `balance_power` `balance_performance` `performance`
+
