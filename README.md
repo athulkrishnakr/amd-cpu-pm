@@ -6,5 +6,5 @@ Script to manage AMD CPU
 * amd-pstate to be enabled
 * python3
 
-## Modes of Operation:
-* <mark> -c, --cpu </mark>: 
+## Commands:
+* ==-c, --cpu== 
