@@ -5,7 +5,7 @@ Script to manage AMD CPU
 * amd-pstate to be enabled
 
 ## Dependencies: 
-* power profile daemon
+* power profiles daemon
 * python3
 
 ## Commands:
