@@ -8,6 +8,7 @@ fi
 
 # Copy files
 cp $PWD/cpu_pm /usr/local/bin/
+cp -r $PWD/pm_modules /usr/local/bin/
 
 #Make it executable
 chmod +x /usr/local/bin/cpu_pm

@@ -1,42 +1,14 @@
 #!/usr/bin/env python3
-import os
-import sys
-import time
-import logging
-import argparse
-import subprocess
+import pm_modules.lib
+import pm_modules.cpu_epp
+import pm_modules.power_profile
 
-UID = os.getuid()
+UID = pm_modules.lib.os.getuid()
 
-log = logging.getLogger()
-log.setLevel(logging.DEBUG)
-
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(levelname)s - %(message)s')
-handler.setFormatter(formatter)
-log.addHandler(handler)
-
-ARGS = ['--platform', '--cpu']
-EPP_PROFILES = ['performance', 'balance_performance', 'balance_power', 'power']
 GOV_PROFILES = ['powersave', 'performance']
-PLATFORM_POWER_PROFILES = ['power-saver', 'balanced', 'performance']
 
 AMD_PSTATE_STATUS = '/sys/devices/system/cpu/amd_pstate/status'
 SCALING_GOV = '/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor'
-EPP = '/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_preference'
-
-
-
-def set_platofrm_profile(power_profile: str):
-    try:
-        if power_profile in PLATFORM_POWER_PROFILES:
-            subprocess.call(['powerprofilesctl', 'set', f'{power_profile}'])
-            log.info(f'Platform power profile set to: {power_profile}')
-        else:
-            log.error(f'Invalid argument: {power_profile}')
-    except(FileNotFoundError):
-        log.error(f'Cannot set Platform Power Profile to {power_profile}, powerprofilesctl not found')
 
 
 def get_current_gov() -> str:
@@ -45,12 +17,12 @@ def get_current_gov() -> str:
             current_gov = gov.read().strip()
             gov.close()
     except(FileNotFoundError):
-        log.warning(f'Scaling governor not available')
+        pm_modules.lib.log.warning(f'Scaling governor not available')
     return current_gov
 
 
 def set_gov(gov: str):
-    CPUS = os.cpu_count()
+    CPUS = pm_modules.lib.os.cpu_count()
     if gov in GOV_PROFILES: 
         for cpu in range(CPUS):
             try:
@@ -58,29 +30,13 @@ def set_gov(gov: str):
                     cpu_gov.write(gov)
                     cpu_gov.close()     
             except(OSError):
-                log.error('Cannot set scaling governor')
+                pm_modules.lib.log.error('Cannot set scaling governor')
                 exit(1)
-        log.info(f'Scaling governor set to: {gov}')
-
-
-def set_epp(epp: str):
-    CPUS = os.cpu_count()
-    if epp in EPP_PROFILES:
-        for cpu in range(CPUS):
-            try:
-                with open(f'/sys/devices/system/cpu/cpu{cpu}/cpufreq/energy_performance_preference', 'w') as cpu_epp:
-                    cpu_epp.write(epp)
-                    cpu_epp.close()
-            except(OSError):
-                log.warning(f'Cannot set EPP profile to: {epp}')
-                return
-        log.info(f'EPP set to: {epp}')
-    else:    
-        log.error(f'Invalid argument: {epp}')
+        pm_modules.lib.log.info(f'Scaling governor set to: {gov}')
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = pm_modules.lib.argparse.ArgumentParser()
     parser.add_argument('-p', '--platform', help='''Set platform power profile ['power-saver', 'balanced', 'performance']''')
     parser.add_argument('-c', '--cpu', help='''Set CPU energy performance preference ['performance', 'balance_performance', 'balance_power', 'power']''')
     args = parser.parse_args()
@@ -89,12 +45,12 @@ def main():
     if gov != current_gov:
         set_gov(gov)
     else:
-        log.info(f'Governor already in desired state: {gov}')
+        pm_modules.lib.log.info(f'Governor already in desired state: {gov}')
     #print(args.cpu, args.platform)
     if args.cpu != None:
-        set_epp(args.cpu)
+        pm_modules.cpu_epp.set_epp(args.cpu)
     if args.platform != None:    
-        set_platofrm_profile(args.platform)
+        pm_modules.power_profile.set_platofrm_profile(args.platform)
     
 
 if __name__ == "__main__":
@@ -103,15 +59,15 @@ if __name__ == "__main__":
             status = f.read().strip()
             f.close()
             if status != "active":
-                log.error(f'AMD PSTATE not in desired mode: {status}')
+                pm_modules.lib.log.error(f'AMD PSTATE not in desired mode: {status}')
                 exit(1)
-            log.info(f'AMD PSTATE in {status} mode')
+            pm_modules.lib.log.info(f'AMD PSTATE in {status} mode')
     except(FileNotFoundError):
-        log.error("Path not found")
+        pm_modules.lib.log.error("Path not found")
         exit(1)
 
     if UID != 0:
-        log.error("Program requires root privileges")
+        pm_modules.lib.log.error("Program requires root privileges")
         exit(1)
     main()
 
