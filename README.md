@@ -7,4 +7,4 @@ Script to manage AMD CPU
 * python3
 
 ## Commands:
-* == -c, --cpu == 
+* <mark>-c, --cpu</mark>
