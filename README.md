@@ -12,3 +12,5 @@ Script to manage AMD CPU
 * `-c, --cpu`: Sets cpu EPP. Available options: `power` `balance_power` `balance_performance` `performance`
 * `-p, --platform`: Sets platform power profile. Available options: `power-saver` `balanced` `performance`
 
+  Example: `cpu_pm --cpu balance_power --platform power-saver`
+
