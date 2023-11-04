@@ -9,8 +9,9 @@ Script to manage AMD CPU
 * python3
 
 ## Commands:
-* `-c, --cpu`: Sets cpu EPP. Available options: `power` `balance_power` `balance_performance` `performance`
-* `-p, --platform`: Sets platform power profile. Available options: `power-saver` `balanced` `performance`
+* `-c`, `--cpu`: Sets cpu EPP. Available options: `power` `balance_power` `balance_performance` `performance`
+* `-p`, `--platform`: Sets platform power profile. Available options: `power-saver` `balanced` `performance`
+* `-g`,  `--gpu`:Sets igpu and dgpu(if available) profile. Available options: `low` `auto` `high`
 
-  Example: `cpu_pm --cpu balance_power --platform power-saver`
+  Example: `cpu_pm --cpu balance_power --platform power-saver --gpu auto`
 
