@@ -59,9 +59,9 @@ def main():
 
 if __name__ == "__main__":
     try:
-        with open(AMD_PSTATE_STATUS, "r") as f:
-            status = f.read().strip()
-            f.close()
+        with open(AMD_PSTATE_STATUS, "r") as pstate:
+            status = pstate.read().strip()
+            pstate.close()
             if status != "active":
                 pm_modules.lib.log.error(f'AMD PSTATE not in desired mode: {status}')
                 exit(1)
