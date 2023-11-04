@@ -1,5 +1,5 @@
 # amd-cpu-pm
-Script to manage AMD CPU
+Scripts to manage AMD CPU
 
 ## Requirements:
 * amd-pstate to be enabled
