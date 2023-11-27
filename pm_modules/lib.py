@@ -6,7 +6,7 @@ class CustomFormatter(logging.Formatter):
         record.hostname = socket.gethostname()
         return super(CustomFormatter, self).format(record)
     
-LOG = 'cpud.log'
+LOG = '/etc/cpud.log'
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 

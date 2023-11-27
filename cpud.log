@@ -386,3 +386,7 @@ Nov 27 22:16:46 - ZephyrusG14 - INFO - EPP set to: performance
 Nov 27 22:16:46 - ZephyrusG14 - INFO - GPU: [Device('/sys/devices/pci0000:00/0000:00:08.1/0000:07:00.0'), Device('/sys/devices/pci0000:00/0000:00:08.1/0000:07:00.0'), Device('/sys/devices/pci0000:00/0000:00:08.1/0000:07:00.0'), Device('/sys/devices/pci0000:00/0000:00:08.1/0000:07:00.0')]
 Nov 27 22:16:46 - ZephyrusG14 - INFO - Found igpu at: /sys/devices/pci0000:00/0000:00:08.1/0000:07:00.0
 Nov 27 22:16:46 - ZephyrusG14 - INFO - GPU profile set to: low
+Nov 27 23:03:56 - ZephyrusG14 - INFO - ['None', 'power', 'None']
+Nov 27 23:03:56 - ZephyrusG14 - INFO - EPP set to: power
+Nov 27 23:07:15 - ZephyrusG14 - INFO - ['None', 'power', 'None']
+Nov 27 23:07:15 - ZephyrusG14 - INFO - EPP set to: power
