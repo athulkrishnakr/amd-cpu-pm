@@ -1,0 +1,8 @@
+Nov 27 21:11:37 - ZephyrusG14 - ERROR - Could not find GPU
+Nov 27 21:11:56 - ZephyrusG14 - ERROR - Could not find GPU
+Nov 27 21:12:48 - ZephyrusG14 - ERROR - Could not find GPU
+Nov 27 21:13:06 - ZephyrusG14 - ERROR - Could not find GPU
+Nov 27 21:13:19 - ZephyrusG14 - ERROR - Could not find GPU
+Nov 27 21:19:32 - ZephyrusG14 - INFO - GPU: [Device('/sys/devices/pci0000:00/0000:00:08.1/0000:07:00.0')]
+Nov 27 21:20:00 - ZephyrusG14 - INFO - GPU: [Device('/sys/devices/pci0000:00/0000:00:08.1/0000:07:00.0')]
+Nov 27 21:20:00 - ZephyrusG14 - INFO - Found igpu at: /sys/devices/pci0000:00/0000:00:08.1/0000:07:00.0

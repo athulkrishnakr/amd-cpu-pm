@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+import argparse
+from pydbus import SystemBus
+
+BUS_NAME = 'org.cpupm.Daemon'
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--platform', help='''Set platform power profile ['power-saver', 'balanced', 'performance']''')
+    parser.add_argument('-c', '--cpu', help='''Set CPU energy performance preference ['performance', 'balance_performance', 'balance_power', 'power']''')
+    parser.add_argument('-g', '--gpu', help='''Set GPU profile ['low', 'auto', 'high']''')
+    
+    args = parser.parse_args()
+    dict = vars(args)
+    commands = list(dict.values())
+
+    for i in range(0,3):
+        commands[i] = str(commands[i])
+
+    options = {0: "Platform profile set to:",
+               1: "CPU energy performance preference set to:",
+               2: "GPU power profile set to:"}
+    
+    bus = SystemBus()
+    user = bus.get(BUS_NAME)
+    ret_values = user.control(commands)
+    #print(ret_values)
+
+    for j in range(0,3):
+        if ret_values[j] == 0:
+            print(f'{options[j]} {commands[j]}')
+
+        if ret_values[j] == 1:
+            print(f'Invalid argument: {commands[j]}')
+
+        if ret_values[j] == 2:
+            print(f'Something went wrong when setting value to {commands[j]}. See logs for more details')
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+import os
+from pm_modules import i_gpu_profile
+from pm_modules import cpu_epp
+from pm_modules import power_profile
+from pm_modules import scaling_gov
+
+from pm_modules.lib import log
+from gi.repository import GLib
+from pydbus import SystemBus
+
+UID = os.getuid()
+BUS_NAME = 'org.cpupm.Daemon'
+AMD_PSTATE_STATUS = '/sys/devices/system/cpu/amd_pstate/status'
+
+
+class Control:
+    dbus = f"""
+        <node>
+            <interface name='{BUS_NAME}'>
+                <method name='control'>
+                    <arg type='as' name='commands' direction='in'/>
+                    <arg type='ai' name='return_values' direction='out'/>
+                </method>
+            </interface>
+        </node>
+    """
+    control_functions = {0: power_profile.set_platofrm_profile, 
+                         1: cpu_epp.set_epp,
+                         2: i_gpu_profile.set_gpu_profile}
+
+    def __init__(self):
+        log.info("Running as root")
+        
+    def control(self, args: list) -> list:
+        ret = [-1,-1,-1]
+        log.info(args)
+        for index in range(0,3):
+            if args[index] != 'None':
+                function = self.control_functions.get(index)
+                if function:
+                    ret[index] = function(args[index])
+        return ret
+
+
+def main():
+    gov = 'powersave'
+    current_gov = scaling_gov.get_current_gov()
+    if gov != current_gov:
+        scaling_gov.set_gov(gov)
+    else:
+        log.info(f'Governor already in desired state: {gov}')
+
+    bus = SystemBus()
+    bus.publish(BUS_NAME, Control())
+    loop = GLib.MainLoop()
+    loop.run()
+
+    
+if __name__ == "__main__":
+    try:
+        with open(AMD_PSTATE_STATUS, "r") as pstate:
+            status = pstate.read().strip()
+            pstate.close()
+            if status != "active":
+                log.error(f'AMD PSTATE not in desired mode: {status}')
+                exit(1)
+            log.info(f'AMD PSTATE in {status} mode')
+    except(FileNotFoundError):
+        log.error("Path not found")
+        exit(1)
+    if UID != 0:
+        log.error("Program requires root privileges")
+        exit(1)    
+    main()

@@ -1,14 +1,18 @@
-import os
-import sys
+import socket
 import logging
-import argparse
-import subprocess
 
+class CustomFormatter(logging.Formatter):
+    def format(self, record):
+        record.hostname = socket.gethostname()
+        return super(CustomFormatter, self).format(record)
+    
+LOG = 'cpud.log'
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 
-handler = logging.StreamHandler(sys.stdout)
+handler = logging.FileHandler(LOG)
 handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(levelname)s - %(message)s')
+formatter = CustomFormatter('%(asctime)s - %(hostname)s - %(levelname)s - %(message)s',
+                            datefmt='%b %d %H:%M:%S')
 handler.setFormatter(formatter)
 log.addHandler(handler)
