@@ -17,7 +17,7 @@ def igpu_path():
      for pci in pci_devices:
           #print(pci)
           att = pci.attributes
-          
+
           try:
                if att.asstring('class') == CLASS:
                     card_list.append(pci)     
@@ -26,8 +26,7 @@ def igpu_path():
 
      #print(card_list)
      if card_list:
-          log.info(f'GPU: {card_list}')
-
+          #log.info(f'GPU: {card_list}')
           for card in card_list:
                att = card.attributes
 
@@ -53,5 +52,5 @@ def igpu_path():
           log.error(f'Could not find GPU')
           return 2
 
-     
+ret = igpu_path()
 
