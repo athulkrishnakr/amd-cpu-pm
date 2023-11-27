@@ -13,5 +13,5 @@ Scripts to manage AMD CPU
 * `-p`, `--platform`: Sets platform power profile. Available options: `power-saver` `balanced` `performance`
 * `-g`,  `--gpu`:Sets igpu and dgpu(if available) profile. Available options: `low` `auto` `high`
 
-  Example: `cpu_pm --cpu balance_power --platform power-saver --gpu auto`
+  Example: `cpuctl --cpu balance_power --platform power-saver --gpu auto`
 
